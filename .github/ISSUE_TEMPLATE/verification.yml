@@ -1,0 +1,53 @@
+name: Verification report
+description: Record a comparison, regression result, build check, or other verification outcome.
+title: "[Verification] "
+body:
+  - type: input
+    id: target
+    attributes:
+      label: Verification target
+      placeholder: function / module / asset / build / format
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Pass
+        - Partial
+        - Fail
+        - Inconclusive
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Method
+      description: Describe the commands, tests, comparisons, hashes, traces, or manual checks used.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected reference
+      description: Describe the documented behavior, output, structure, or data used as the reference.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed result
+      description: Record the actual result and any differences.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Verification artifacts
+      description: Link or point to logs, comparison files, manifests, reports, hashes, or tests committed to the repository.
+  - type: textarea
+    id: followup
+    attributes:
+      label: Follow-up
+      description: Note any failure analysis, remaining uncertainty, or next action.
