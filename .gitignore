@@ -1,0 +1,50 @@
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Language and tool caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local inputs and generated output
+/artifacts/
+/build/
+/dist/
+/inputs/
+/out/
+/outputs/
+/tmp/
+*.log
+
+# Game images and installable packages
+*.gb
+*.gbc
+*.gba
+*.nds
+*.3ds
+*.cia
+*.cci
+*.xci
+*.nsp
+*.rom
+*.iso
