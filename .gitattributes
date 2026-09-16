@@ -1,0 +1,38 @@
+* text=auto eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Source and documentation
+*.c text eol=lf
+*.cc text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.s text eol=lf
+*.asm text eol=lf
+*.inc text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.csv text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.wav binary
+*.ogg binary
+*.flac binary
+*.zip binary
+*.7z binary
+*.gz binary
