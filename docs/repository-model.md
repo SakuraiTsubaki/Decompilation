@@ -6,7 +6,7 @@
 
 ## Target repositories
 
-Each `PocketMonsters-*-Decompilation` repository owns one named target and contains its exact target identity, target-specific research, analysis, tools, source reconstruction, configuration, tests, and progress records.
+Each target repository in the `PocketMonsters-*-Decompilation` or `PokemonLegends-*-Decompilation` series owns one named target and contains its exact target identity, target-specific research, analysis, tools, source reconstruction, configuration, tests, and progress records.
 
 ## Promotion rule
 

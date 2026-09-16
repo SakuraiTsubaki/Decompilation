@@ -4,7 +4,7 @@ Contributions should make decompilation work more reproducible, reviewable, and 
 
 ## Before starting
 
-- Decide whether the work is target-independent. Target-specific work belongs in its `PocketMonsters-*-Decompilation` repository.
+- Decide whether the work is target-independent. Target-specific work belongs in its matching `PocketMonsters-*-Decompilation` or `PokemonLegends-*-Decompilation` repository.
 - Define the question, expected outputs, and verification method.
 - Record the exact tools, versions, input identifiers, and legal provenance needed to reproduce the work.
 - Never add restricted binaries, extracted proprietary content, credentials, or secrets.

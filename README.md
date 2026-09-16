@@ -2,7 +2,7 @@
 
 A shared, target-independent foundation for reproducible decompilation research, analysis, and tooling.
 
-This repository owns methods and utilities that apply across targets. Game- or build-specific source, symbols, assets, configurations, and conclusions belong in the corresponding `PocketMonsters-*-Decompilation` repository.
+This repository owns methods and utilities that apply across targets. Game- or build-specific source, symbols, assets, configurations, and conclusions belong in the corresponding target repository, including the `PocketMonsters-*-Decompilation` and `PokemonLegends-*-Decompilation` series.
 
 ## Repository responsibilities
 
