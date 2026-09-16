@@ -8,7 +8,7 @@ List the evidence, public references, symbols, addresses, format observations, c
 
 ## Changes
 
-- 
+- Describe the main changes here.
 
 ## Verification
 
