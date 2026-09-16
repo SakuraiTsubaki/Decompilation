@@ -1,0 +1,43 @@
+name: Binary / file-format analysis
+description: Document a binary layout, resource format, compression scheme, or container structure.
+title: "[Format] "
+body:
+  - type: input
+    id: target
+    attributes:
+      label: Format / structure
+      placeholder: Example container header / compression stream / resource block
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Describe where the format appears and what part is being analyzed.
+    validations:
+      required: true
+  - type: textarea
+    id: layout
+    attributes:
+      label: Observed layout
+      description: Record fields, offsets, sizes, endianness, alignment, flags, tables, or relationships.
+      placeholder: "Offset | Size | Meaning | Confidence"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / samples
+      description: Describe the public references, samples, signatures, or comparisons supporting the interpretation.
+    validations:
+      required: true
+  - type: textarea
+    id: tooling
+    attributes:
+      label: Tooling implications
+      description: Note extraction, conversion, parsing, rebuilding, or validation work that follows from this analysis.
+  - type: textarea
+    id: unknowns
+    attributes:
+      label: Unknowns / follow-up
+      description: List fields or behaviors that remain unresolved.
