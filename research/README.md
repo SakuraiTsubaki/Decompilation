@@ -1,13 +1,7 @@
 # Research
 
-This directory holds target-independent methods, references, experiments, and open questions.
+Cross-target research lives here.
 
-Each research topic should document:
+Create one directory per focused topic. Start with [the research template](template.md) and include scripts or distributable fixtures beside the record when they are part of the reproduction path.
 
-- the question and intended scope;
-- input provenance and applicable licensing terms;
-- the method, environment, and exact reproduction steps;
-- observations, limitations, and unresolved questions;
-- links to any resulting analysis or reusable tool.
-
-Keep target-specific notes in the relevant target repository unless the result is broadly reusable.
+Research is exploratory, but it must still preserve provenance, commands, observations, limitations, and unresolved questions. Promote stable conclusions to `analysis/` and reusable implementations to `tools/`.

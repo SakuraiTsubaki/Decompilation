@@ -1,0 +1,32 @@
+name: Shared tool
+description: Propose or improve reusable decompilation tooling.
+title: "[Tool] "
+body:
+  - type: input
+    id: purpose
+    attributes:
+      label: Purpose
+      description: The repeatable operation this tool should provide.
+    validations:
+      required: true
+  - type: textarea
+    id: interface
+    attributes:
+      label: Inputs and outputs
+      description: Supported inputs, output contract, errors, and explicit non-goals.
+    validations:
+      required: true
+  - type: textarea
+    id: reuse
+    attributes:
+      label: Cross-target use
+      description: Explain why this belongs in the shared repository.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      description: Tests, fixtures, comparisons, or other acceptance criteria.
+    validations:
+      required: true

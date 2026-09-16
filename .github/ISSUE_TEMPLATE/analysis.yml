@@ -1,0 +1,42 @@
+name: Shared analysis
+description: Propose or document a cross-target analysis.
+title: "[Analysis] "
+body:
+  - type: input
+    id: subject
+    attributes:
+      label: Subject
+      description: Format, algorithm, behavior, or comparison method.
+    validations:
+      required: true
+  - type: textarea
+    id: applicability
+    attributes:
+      label: Applicability
+      description: Targets, builds, formats, versions, and exclusions.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and provenance
+      description: Public references, hashes, tool versions, and distribution constraints.
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Reproduction and verification
+      description: Exact procedure, commands, expected results, and observed results.
+    validations:
+      required: true
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: Confidence
+      options:
+        - Confirmed
+        - Probable
+        - Hypothesis
+    validations:
+      required: true

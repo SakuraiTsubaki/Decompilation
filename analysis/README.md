@@ -1,11 +1,7 @@
 # Analysis
 
-This directory holds durable, reproducible findings that apply across decompilation targets: file-format notes, algorithm studies, comparison methods, and verification records.
+Cross-target, durable findings live here.
 
-Label conclusions consistently:
+Create one directory per format, algorithm, comparison method, or verification study. Begin with [the analysis template](template.md). Every claim must identify its evidence, confidence, scope, and verification path.
 
-- **Confirmed**: supported by reproducible evidence.
-- **Probable**: strongly supported but not fully verified.
-- **Hypothesis**: a working explanation that still needs evidence.
-
-An analysis should identify its inputs, hashes or versions when relevant, procedure, observed results, confidence, and a verification path. Do not commit restricted inputs merely to make a report self-contained.
+Target-specific symbols, addresses, offsets, and build conclusions belong in the relevant target repository unless the document explicitly compares multiple targets.
