@@ -51,6 +51,14 @@ For every supplied target, generate deterministic non-ROM outputs:
 - `reproduction-results.json`
 - `regression-results.json`
 
+## Public defect seed manifest
+
+`manifests/generation-vi-known-defects.csv` is the current machine-readable discovery inventory. It contains 55 public defect seeds split across general/system, battle, and overworld families.
+
+A row in this manifest is **not** equivalent to a confirmed ROM defect. Every row must be checked against the exact title, region, base revision, and update version. Community reports are discovery evidence; official Nintendo update notes are stronger evidence for defects Nintendo explicitly fixed.
+
+The public inventory is intentionally only the starting surface. Static and dynamic ROM auditing must also discover defects that have never been publicly catalogued.
+
 ## Defect families to audit beyond public glitch lists
 
 - bounds / index / enum validation
