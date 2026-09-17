@@ -2,6 +2,6 @@
 
 Cross-target research lives here.
 
-Create one directory per focused topic. Start with [the research template](template.md) and include scripts or distributable fixtures beside the record when they are part of the reproduction path.
+Create one directory per focused topic. Start with [the research template](template.md). Commit the complete non-ROM trail: collected material, notes, commands, scripts, logs, tables, structured data, manifests, converted outputs, images, negative results, and follow-up.
 
-Research is exploratory, but it must still preserve provenance, commands, observations, limitations, and unresolved questions. Promote stable conclusions to `analysis/` and reusable implementations to `tools/`.
+Promote stable conclusions to `analysis/` and reusable implementations to `tools/`. Graphics-related research must include actual PNG results.

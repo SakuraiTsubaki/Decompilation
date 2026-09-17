@@ -6,7 +6,7 @@ State the question, what is included, and what is explicitly excluded.
 
 ## Inputs and provenance
 
-List references, versions, hashes, acquisition dates, licenses, and distribution constraints.
+List references, versions, hashes, acquisition dates, and terms. Identify the excluded ROM binary by hash.
 
 ## Environment
 
@@ -14,20 +14,24 @@ Record operating system, architecture, tool names and versions, and relevant con
 
 ## Procedure
 
-Provide exact, ordered reproduction steps and commands.
+Provide exact ordered reproduction steps and commands.
 
 ## Observations
 
-Record facts observed during the procedure. Keep interpretation separate.
+Record facts separately from interpretation.
 
 ## Interpretation
 
-Explain what the observations may mean and label each conclusion Confirmed, Probable, or Hypothesis.
+Label conclusions Confirmed, Probable, or Hypothesis.
+
+## Retained outputs
+
+List and commit every storable non-ROM output: scripts, logs, manifests, tables, structured data, converted data, patches, reports, images, and validation material. For graphics or sprite work, include actual PNG output.
 
 ## Limitations and negative results
 
-State what was not tested, what failed, and what could invalidate the result.
+Record failures, untested cases, and facts that could invalidate the result.
 
-## Outputs and follow-up
+## Follow-up
 
-Link to resulting analyses, tools, fixtures, and open questions.
+Link resulting analyses, tools, tests, and unresolved questions.

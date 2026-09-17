@@ -4,11 +4,15 @@ What shared research, analysis, tooling, documentation, or policy does this chan
 
 ## Evidence and provenance
 
-List inputs, references, versions, hashes, and applicable licenses or constraints.
+List inputs, references, versions, hashes, and terms.
 
 ## Changes
 
 Describe the implementation and repository impact.
+
+## Retained non-ROM artifacts
+
+List committed reports, scripts, source, logs, manifests, tables, structured data, patches, images, and verification material. If this includes graphics or sprite work, link the actual PNG output.
 
 ## Verification
 
@@ -21,7 +25,8 @@ Identify Confirmed, Probable, or Hypothesis conclusions and remaining work.
 ## Checklist
 
 - [ ] The work is genuinely target-independent.
-- [ ] Restricted binaries, extracted proprietary content, credentials, and secrets are absent.
+- [ ] Original, modified, and rebuilt ROM binaries are absent.
+- [ ] Every storable non-ROM work product is committed.
+- [ ] Graphics and sprite work includes inspectable PNG output.
 - [ ] Provenance and compatibility are documented.
-- [ ] Tools include tests or a documented verification route.
 - [ ] Repository validation passes.

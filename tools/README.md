@@ -2,16 +2,8 @@
 
 Reusable, target-independent utilities live here.
 
-Each tool receives its own directory and README. A tool directory should contain implementation, tests, small distributable fixtures when needed, and licensing notices for adapted third-party code.
+Each tool receives its own directory with implementation, README, tests, fixtures, configuration, manifests, logs, generated non-ROM examples, and verification results.
 
-Required documentation:
+Document supported inputs, runtime and dependency versions, interfaces, output formats, determinism, errors, safety constraints, compatibility, and verification commands. Commit every storable non-ROM output needed to inspect or reproduce the tool's behavior.
 
-- supported inputs and explicit non-goals;
-- runtime and dependency versions;
-- command-line or library interface;
-- output format and determinism guarantees;
-- error behavior and safety constraints;
-- verification commands;
-- compatibility notes for target repositories.
-
-Target constants, symbols, keys, extracted data, and build-specific wrappers remain in target repositories.
+Tools producing graphics, sprites, palettes, fonts, icons, or tiles must also emit and retain viewable PNG results.

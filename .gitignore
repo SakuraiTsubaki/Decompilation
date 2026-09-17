@@ -8,14 +8,14 @@ Desktop.ini
 *.swo
 *~
 
-# Secrets and local configuration
+# Secrets and local credentials are not work products
 .env
 .env.*
 !.env.example
 *.key
 *.pem
 
-# Language and tool caches
+# Regenerable tool caches are not research results
 __pycache__/
 *.py[cod]
 .venv/
@@ -26,25 +26,5 @@ node_modules/
 .mypy_cache/
 .ruff_cache/
 
-# Local inputs, extracted material, and generated output
-/artifacts/
-/build/
-/dist/
-/inputs/
-/out/
-/outputs/
-/tmp/
-*.log
-
-# Game images and installable packages
-*.gb
-*.gbc
-*.gba
-*.nds
-*.3ds
-*.cia
-*.cci
-*.xci
-*.nsp
-*.rom
-*.iso
+# All storable non-ROM work products, including logs and generated output,
+# are intentionally trackable. Only ROM binaries are blocked by policy.

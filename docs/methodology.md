@@ -4,30 +4,32 @@
 
 Record the target name, release, region, revision, platform, executable or image hashes, and relevant tool versions. A repository name alone is not a sufficient build identifier.
 
-## 2. Preserve provenance
+## 2. Preserve provenance and outputs
 
-For each input or reference, record where it came from, when it was obtained, its license or distribution constraints, and a stable identifier such as a cryptographic hash or public URL. Do not upload restricted source material.
+For each input or reference, record where it came from, when it was obtained, its terms, and a stable identifier. Keep the ROM binary outside Git, but commit all storable non-ROM collected material, manifests, notes, converted data, logs, and intermediate results.
 
 ## 3. Research
 
-State a narrow question and design a repeatable experiment. Capture commands, environment, observations, failed approaches, and limitations. Keep raw local artifacts outside Git.
+State a narrow question and design a repeatable experiment. Commit commands, environment records, observations, failed approaches, limitations, logs, and all non-ROM outputs.
 
 ## 4. Analyze
 
-Turn observations into a structured claim. Separate facts from interpretation, assign a confidence level, connect the claim to supporting evidence, and define a falsification or verification route.
+Turn observations into a structured claim. Separate facts from interpretation, assign a confidence level, connect the claim to committed evidence, and define a falsification or verification route.
 
 ## 5. Implement tooling
 
-Automate stable, repeated operations. Define inputs and outputs, reject malformed data safely, avoid hidden state, and include tests with independently distributable fixtures.
+Automate stable operations. Define inputs and outputs, reject malformed data safely, avoid hidden state, and commit source, tests, fixtures, manifests, logs, and generated non-ROM examples.
 
 ## 6. Reconstruct
 
-Target repositories may reconstruct source or data only after the relevant target build and evidence are fixed. Preserve unresolved behavior explicitly instead of inventing semantics.
+Target repositories may reconstruct source or data after the relevant build and evidence are fixed. Preserve unresolved behavior explicitly. Commit reconstructed source and every supporting non-ROM artifact.
 
 ## 7. Verify
 
-Use the strongest practical method: byte comparison, structured diff, unit or regression tests, trace comparison, deterministic rebuild, or a documented manual procedure. Record both expected and observed results.
+Use the strongest practical method: byte comparison, structured diff, tests, trace comparison, deterministic rebuild, or documented manual procedure. Commit expected and observed results, logs, tables, reports, and patches.
+
+Graphics and sprite verification must include actual PNG output alongside palettes, metadata, tile data, or conversion records.
 
 ## 8. Promote shared work
 
-Move a method or tool into this repository only after target-specific assumptions have been removed or made explicit. Keep adapters and build-specific configuration in target repositories.
+Move a method or tool here after target-specific assumptions are removed or isolated. Preserve the complete non-ROM evidence and artifact trail during promotion.
