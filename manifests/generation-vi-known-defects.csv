@@ -1,0 +1,56 @@
+id,scope,category,name,reported_versions,verification,source
+GENVI-GEN-001,XY,general,Language icon glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-002,XY,general,Pokemon-Amie gift glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-003,XY,general,Pokemon cloning,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-004,XY,general,PSS save glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-005,XY,general,Save corruption,reported all,public_seed_needs_root_cause,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-006,XY,audio,Stereo sound glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-007,XY,ui,Super Training menu triggering glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-008,XY,data,Sylveon Pokedex entry glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-009,XY,ui,Wonder Card form glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-010,XY,data,Vivillon Friend Safari glitch,1.0-1.2,official_fix_correlated,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-011,XY,event,Trainer PR Videos glitch,1.0-1.1,officially_fixed,https://support.nintendo.com/jp/3ds/soft/ekjj/update/index.html
+GENVI-GEN-012,XY,battle,Wonder Trade Evolution learnset glitch,1.0-1.1,officially_fixed,https://support.nintendo.com/jp/3ds/soft/ekjj/update/index.html
+GENVI-GEN-013,XY,network,GTS filter error,1.0,officially_fixed,https://support.nintendo.com/jp/3ds/soft/ekjj/update/index.html
+GENVI-GEN-014,ORAS,ui,Battle Resort Move Tutor glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-015,ORAS,freeze,Hall of Fame freeze,1.0-1.1,officially_fixed,https://support.nintendo.com/jp/3ds/soft/ecrj/update/index.html
+GENVI-GEN-016,XY+ORAS,text,Case conversion bug,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-017,XY+ORAS,evolution,Friendship Evolution glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-018,XY+ORAS,graphics,Graphics cache flushing oversight,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-019,XY+ORAS,input,Invalid input glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-020,XY+ORAS,ui,Pokemon-Amie reaction glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-GEN-021,XY+ORAS,graphics,Pokemon-Amie sprite glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_in_Generation_VI
+GENVI-BAT-001,XY+ORAS,battle,Baton Pass Own Tempo glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-002,XY+ORAS,battle,Charge Beam additional effect chance glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-003,XY+ORAS,battle,Charge move replacement glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/Charge_move_replacement_glitch
+GENVI-BAT-004,XY+ORAS,battle,Choice item lock glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-005,XY+ORAS,battle,Confusion item activation glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-006,XY,audio,Flabebe cry glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-007,XY,graphics,Move animation camera clipping glitches,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-008,XY,graphics,Poke Ball animation oversight,1.0-1.2,official_fix_correlated,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-009,ORAS,battle,Fainting Status glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-010,ORAS,crash,Hoopa Unbound horde crash,all,public_seed_cheat_only,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-011,ORAS,ui,Level display glitch semi-invulnerable turn,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-012,ORAS,ui,Level display glitch Volt Switch U-turn,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-013,ORAS,ui,Primal Reversion Zoroark glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-014,ORAS,graphics,Sky Drop invisible Pokemon glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-015,ORAS,battle,Symbiosis Eject Button glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-016,ORAS,battle,Toxic sure-hit glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-017,ORAS,battle,Trick Room speed overflow oversight,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-018,ORAS,battle,Type-changing Curse glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-BAT-019,ORAS,battle,White Herb Contrary O-Power oversight,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_battle_glitches_in_Generation_VI
+GENVI-OVR-001,XY,overworld,Backward sign-reading glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-002,XY,overworld,Day Care signpost oversight,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-003,XY,event,Invisible Poke Ball glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-004,XY,collision,Lumiose City fence glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-005,XY,audio,Poke Radar music glitch,1.0 1.2 1.3 reported,public_seed_needs_version_matrix,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-006,XY,graphics,Santalune Gym tent oversight,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-007,XY,event,Sky Trainer interaction glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-008,XY,save,Lumiose City save glitch,1.0,officially_fixed,https://support.nintendo.com/jp/3ds/soft/ekjj/update/index.html
+GENVI-OVR-009,ORAS,overworld,Day-Care Lad glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-010,ORAS,graphics,Disappearing bike glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-011,ORAS,freeze,Evolving Wailmer Surf glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-012,ORAS,text,Hiker TM70 Flash oversight,all,public_seed_language_specific,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-013,ORAS,softlock,Lilycove load game softlock,all,public_seed_needs_root_cause,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-014,ORAS,npc,Route 112 Hiker moving glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
+GENVI-OVR-015,ORAS,event,Route 119 Trainer Rematch glitch,all,public_seed_unverified,https://bulbapedia.bulbagarden.net/wiki/List_of_overworld_glitches_(Generation_VI)
