@@ -1,0 +1,11 @@
+left,right,shared_paths,identical_at_same_path,changed_at_same_path,left_unique_paths,right_unique_paths,shared_content_hashes_any_path
+"Pokémon Diamond Version (USA, ADAE, header ROM version 5)","Pokémon Pearl Version (USA, APAE, header ROM version 5)",355,337,18,1,1,332
+"Pokémon Diamond Version (USA, ADAE, header ROM version 5)","포켓몬스터Pt 기라티나 (Korea, CPUK, header ROM version 0)",326,169,157,30,135,174
+"Pokémon Diamond Version (USA, ADAE, header ROM version 5)","포켓몬스터 하트골드 (Korea, IPKK, header ROM version 0)",161,64,97,195,350,109
+"Pokémon Diamond Version (USA, ADAE, header ROM version 5)","포켓몬스터 소울실버 (Korea, IPGK, header ROM version 0)",161,64,97,195,350,109
+"Pokémon Pearl Version (USA, APAE, header ROM version 5)","포켓몬스터Pt 기라티나 (Korea, CPUK, header ROM version 0)",325,168,157,31,136,173
+"Pokémon Pearl Version (USA, APAE, header ROM version 5)","포켓몬스터 하트골드 (Korea, IPKK, header ROM version 0)",161,64,97,195,350,108
+"Pokémon Pearl Version (USA, APAE, header ROM version 5)","포켓몬스터 소울실버 (Korea, IPGK, header ROM version 0)",161,64,97,195,350,108
+"포켓몬스터Pt 기라티나 (Korea, CPUK, header ROM version 0)","포켓몬스터 하트골드 (Korea, IPKK, header ROM version 0)",198,66,132,263,313,138
+"포켓몬스터Pt 기라티나 (Korea, CPUK, header ROM version 0)","포켓몬스터 소울실버 (Korea, IPGK, header ROM version 0)",198,66,132,263,313,138
+"포켓몬스터 하트골드 (Korea, IPKK, header ROM version 0)","포켓몬스터 소울실버 (Korea, IPGK, header ROM version 0)",511,390,121,0,0,355
