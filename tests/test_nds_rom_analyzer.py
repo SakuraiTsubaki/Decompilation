@@ -82,7 +82,7 @@ class StructureAnalyzerTests(unittest.TestCase):
             fixture = root / "fixture.nds"
             output = root / "output"
             make_fixture(fixture)
-            script = Path(__file__).parents[1] / "tools" / "nds_structure_analyzer.py"
+            script = Path(__file__).parents[1] / "tools" / "nds_rom_analyzer" / "analyzer.py"
             completed = subprocess.run(
                 [sys.executable, str(script), str(fixture), "--output", str(output)],
                 capture_output=True,
