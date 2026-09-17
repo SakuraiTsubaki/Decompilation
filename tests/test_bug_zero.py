@@ -19,6 +19,10 @@ FIELDNAMES = [
     "id", "targets", "category", "name", "affected_scope",
     "upstream_fix", "status", "source", "notes",
 ]
+GENVI_FIELDNAMES = [
+    "id", "scope", "category", "name", "reported_versions",
+    "verification", "source",
+]
 
 
 class BugZeroGateTests(unittest.TestCase):
@@ -39,6 +43,14 @@ class BugZeroGateTests(unittest.TestCase):
             writer.writerows(rows)
         return path
 
+    def make_genvi_registry(self, root: Path, rows: list[dict[str, str]]) -> Path:
+        path = root / "genvi-defects.csv"
+        with path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=GENVI_FIELDNAMES)
+            writer.writeheader()
+            writer.writerows(rows)
+        return path
+
     def row(self, *, status: str = "CLOSED", targets: str = "Scarlet|Violet"):
         return {
             "id": "SV-TEST-001",
@@ -50,6 +62,17 @@ class BugZeroGateTests(unittest.TestCase):
             "status": status,
             "source": "unit-test",
             "notes": "synthetic",
+        }
+
+    def genvi_row(self, *, scope: str = "XY", verification: str = "CLOSED"):
+        return {
+            "id": "GENVI-TEST-001",
+            "scope": scope,
+            "category": "battle",
+            "name": "synthetic Generation VI defect",
+            "reported_versions": "test",
+            "verification": verification,
+            "source": "unit-test",
         }
 
     def test_verified_target_with_only_terminal_statuses_passes(self):
@@ -92,6 +115,53 @@ class BugZeroGateTests(unittest.TestCase):
             registry = self.make_registry(root, [self.row(targets="Violet")])
             errors = check_bug_zero.validate("Scarlet", config, registry)
             self.assertTrue(any("no registry entries apply" in error for error in errors))
+
+    def test_generation_vi_xy_scope_applies_to_x(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            config = self.make_target(root)
+            registry = self.make_genvi_registry(root, [self.genvi_row(scope="XY")])
+            self.assertEqual(check_bug_zero.validate("X", config, registry), [])
+
+    def test_generation_vi_oras_scope_does_not_apply_to_x(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            config = self.make_target(root)
+            registry = self.make_genvi_registry(root, [self.genvi_row(scope="ORAS")])
+            errors = check_bug_zero.validate("X", config, registry)
+            self.assertTrue(any("no registry entries apply" in error for error in errors))
+
+    def test_generation_vi_public_seed_blocks_completion(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            config = self.make_target(root)
+            registry = self.make_genvi_registry(
+                root,
+                [self.genvi_row(scope="XY+ORAS", verification="public_seed_unverified")],
+            )
+            errors = check_bug_zero.validate("Omega Ruby", config, registry)
+            self.assertTrue(any("REPRODUCTION_NEEDED_ON_LATEST" in error for error in errors))
+
+    def test_generation_vi_official_fix_still_requires_verification(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            config = self.make_target(root)
+            registry = self.make_genvi_registry(
+                root,
+                [self.genvi_row(scope="XY", verification="officially_fixed")],
+            )
+            errors = check_bug_zero.validate("Y", config, registry)
+            self.assertTrue(any("UPSTREAM_FIXED_VERIFY" in error for error in errors))
+
+    def test_generation_vi_default_registry_selection(self):
+        self.assertEqual(
+            check_bug_zero.default_registry_for("Alpha Sapphire"),
+            Path("manifests/generation-vi-known-defects.csv"),
+        )
+        self.assertEqual(
+            check_bug_zero.default_registry_for("Violet"),
+            Path("manifests/generation-ix-known-defects.csv"),
+        )
 
 
 if __name__ == "__main__":
