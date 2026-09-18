@@ -1,0 +1,19 @@
+format,"Pokémon Diamond Version (USA, ADAE, header ROM version 5)","Pokémon Pearl Version (USA, APAE, header ROM version 5)","포켓몬스터Pt 기라티나 (Korea, CPUK, header ROM version 0)","포켓몬스터 하트골드 (Korea, IPKK, header ROM version 0)","포켓몬스터 소울실버 (Korea, IPGK, header ROM version 0)",total
+NANR animation,140,140,444,591,591,1906
+NARC archive,0,0,2,0,0,2
+NCER cell,153,153,457,608,608,1979
+NCGR graphics,3643,3643,6916,7937,7937,30076
+NCLR palette,2325,2325,4242,4945,4945,18782
+NSBCA animation,37,37,181,285,285,825
+NSBMA material animation,10,10,24,58,58,160
+NSBMD model,686,686,1030,1540,1540,5482
+NSBTA texture animation,40,40,98,185,185,548
+NSBTP texture-pattern animation,28,28,72,189,189,506
+NSBTX texture,504,504,704,1146,1146,4004
+NSBVA visibility animation,2,2,3,4,4,15
+NSCR screen map,243,243,532,790,790,2598
+Nintendo Huffman,693,693,737,771,771,3665
+Nintendo LZ10,2042,2042,2802,4544,4544,15974
+Nintendo LZ11,129,129,224,620,620,1722
+Nintendo RLE,45,45,72,47,47,256
+unknown,23233,23233,35025,32414,32414,146319
