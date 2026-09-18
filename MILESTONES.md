@@ -10,7 +10,7 @@ This roadmap governs target-independent research methods, schemas, tooling, vali
 - Original, modified, and rebuilt ROM or complete game-package binaries are never committed.
 - Every other storable work product is retained, including research, reports, source, scripts, tools, logs, manifests, structured data, patches, validation material, and generated outputs.
 - Graphics and sprite pipelines always preserve viewable PNG results with their data and metadata.
-- Normal diagnostics and safe error handling remain part of the tools; there is no separate bug-eradication track.
+- Diagnostics, validation, and safe failure handling remain ordinary engineering responsibilities.
 
 ## Dependency chain
 
