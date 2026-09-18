@@ -1,4 +1,0 @@
-target,repository,identity_status,latest_upstream_version,registry,completion_state,blocking_reason
-Scarlet,SakuraiTsubaki/PocketMonsters-Scarlet-Decompilation,unselected,4.0.0,manifests/generation-ix-known-defects.csv,BLOCKED,"Exact local ROM/package identity and hashes are not yet selected; applicable current, historical, event, and opaque-update defect rows remain nonterminal."
-Violet,SakuraiTsubaki/PocketMonsters-Violet-Decompilation,unselected,4.0.0,manifests/generation-ix-known-defects.csv,BLOCKED,"Exact local ROM/package identity and hashes are not yet selected; applicable current, historical, event, and opaque-update defect rows remain nonterminal."
-Z-A,SakuraiTsubaki/PokemonLegends-Z-A-Decompilation,unselected,2.0.2,manifests/generation-ix-known-defects.csv,BLOCKED,"Exact local ROM/package identity and hashes are not yet selected; latest-version reproduction, historical upstream verification, and opaque-update differential rows remain nonterminal."
