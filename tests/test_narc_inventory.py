@@ -112,6 +112,7 @@ class NarcParserTests(unittest.TestCase):
             )
             return {
                 "provenance": {"input_label": label},
+                "summary": {"format_counts": {}},
                 "containers": [container] + nested,
                 "members": members,
             }
