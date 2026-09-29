@@ -38,13 +38,19 @@ def analyze_rom(path:Path,start_offset:int,expected_sha256:str|None=None,max_spa
  if expected_sha256 and digest.lower()!=expected_sha256.lower():raise ValueError("SHA-256 mismatch")
  result=trace_thumb_function(data,start_offset,max_span=max_span);result.update({"source_size":len(data),"source_sha256":digest});return result
 
+def omit_raw_halfwords(report:dict)->dict:
+ """Return a publication-safe copy retaining structure but no ROM words."""
+ clean=dict(report);clean["instructions"]=[{k:v for k,v in item.items() if k!="halfword"} for item in report["instructions"]]
+ clean["raw_halfwords_omitted"]=True
+ return clean
+
 def main()->int:
- p=argparse.ArgumentParser(description=__doc__);p.add_argument("rom",type=Path);p.add_argument("--start-offset",type=lambda x:int(x,0),required=True);p.add_argument("--expected-sha256");p.add_argument("--max-span",type=lambda x:int(x,0),default=0x4000);p.add_argument("--output",type=Path);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument("rom",type=Path);p.add_argument("--start-offset",type=lambda x:int(x,0),required=True);p.add_argument("--expected-sha256");p.add_argument("--max-span",type=lambda x:int(x,0),default=0x4000);p.add_argument("--omit-raw-halfwords",action="store_true");p.add_argument("--output",type=Path);a=p.parse_args()
  try:r=analyze_rom(a.rom,a.start_offset,a.expected_sha256,a.max_span)
  except (OSError,ValueError) as e:p.error(str(e))
+ if a.omit_raw_halfwords:r=omit_raw_halfwords(r)
  text=json.dumps(r,indent=2)+"\n"
  if a.output:a.output.write_text(text,encoding="utf-8",newline="\n")
  else:print(text,end="")
  return 0
 if __name__=="__main__":raise SystemExit(main())
-
