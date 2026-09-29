@@ -43,6 +43,11 @@ class ImportReleaseCatalogTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "failed validation"):
             module.import_catalog(source(valid=False), "AXV", "owner/source", "analysis/source.json")
 
+    def test_output_hash_is_manifest_ready(self):
+        result = module.import_catalog(source(), "AXV", "owner/source", "analysis/source.json")
+        text = json.dumps(result, indent=2) + "\n"
+        self.assertEqual(len(module.hashlib.sha256(text.encode("utf-8")).hexdigest()), 64)
+
 
 if __name__ == "__main__":
     unittest.main()

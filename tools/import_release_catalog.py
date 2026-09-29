@@ -47,11 +47,22 @@ def main() -> int:
     parser.add_argument("--source-repository", required=True)
     parser.add_argument("--source-artifact", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--output-artifact", default="analysis/global-release-catalog.json")
+    parser.add_argument("--manifest-output", type=Path)
     args = parser.parse_args()
     try:
         text = args.source.read_text(encoding="utf-8")
         result = import_catalog(text, args.game_code_prefix, args.source_repository, args.source_artifact)
-        args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+        output_text = json.dumps(result, indent=2) + "\n"
+        args.output.write_text(output_text, encoding="utf-8", newline="\n")
+        if args.manifest_output:
+            manifest = {
+                "schema_version": 1,
+                "generator": {"repository": "SakuraiTsubaki/Decompilation", "tool": "tools/import_release_catalog.py"},
+                "inputs": [{"repository": args.source_repository, "path": args.source_artifact, "sha256": result["source"]["sha256"]}],
+                "outputs": [{"path": args.output_artifact, "sha256": hashlib.sha256(output_text.encode("utf-8")).hexdigest()}],
+            }
+            args.manifest_output.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n")
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
     return 0
