@@ -12,6 +12,12 @@ class ThumbCfgTests(unittest.TestCase):
   r=m.trace_thumb_function(self.pack(0xE001,0xFFFF,0xFFFF,0x4770),0);self.assertEqual(r["instruction_halfwords"],2)
  def test_missing_return_is_recorded(self):
   r=m.trace_thumb_function(self.pack(0x2000,0x2000),0,max_span=4);self.assertFalse(r["return_observed"]);self.assertEqual(r["scan_limit_address"],0x08000004)
+ def test_pop_then_bx_same_register_is_return(self):
+  r=m.trace_thumb_function(self.pack(0xBC01,0x4700,0xF000,0xF800),0)
+  self.assertEqual(r["returns"],[0x08000002]);self.assertEqual(r["range_end"],0x08000004);self.assertEqual(r["calls"],[])
+ def test_pop_then_bx_different_register_is_not_return(self):
+  r=m.trace_thumb_function(self.pack(0xBC01,0x4708,0x4770),0)
+  self.assertEqual(r["returns"],[0x08000004])
  def test_publishable_report_omits_halfwords(self):
   report={"instructions":[{"address":0x08000000,"halfword":0x4770,"kind":"return"}],"edges":[]}
   clean=m.omit_raw_halfwords(report)

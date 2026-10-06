@@ -21,6 +21,20 @@ def trace_thumb_function(data:bytes,start_offset:int,rom_base:int=0x08000000,max
    visited.add(offset);h=struct.unpack_from("<H",data,offset)[0];address=rom_base+offset;item={"address":address,"halfword":h,"kind":"other"};instructions[offset]=item
    if h&0xff00==0xbd00 or h==0x4770:
     item["kind"]="return";returns.append(address);break
+   # Older Thumb compilers also return by popping the saved link address into a
+   # low register and immediately branching through that register.  Treat the
+   # two-halfword sequence as one terminal so tracing cannot run into the next
+   # function when a ROM uses ``pop {rN}; bx rN`` instead of ``pop {..., pc}``.
+   if h&0xff00==0xbc00 and h&0xff and offset+4<=len(data):
+    registers=h&0xff
+    next_h=struct.unpack_from("<H",data,offset+2)[0]
+    branch_register=(next_h>>3)&0xf
+    if next_h&0xff87==0x4700 and branch_register<8 and registers==1<<branch_register:
+     item["kind"]="return-pop"
+     visited.add(offset+2)
+     instructions[offset+2]={"address":address+2,"halfword":next_h,"kind":"return-branch"}
+     returns.append(address+2)
+     break
    if h&0xf800==0xf000:
     if offset+4>len(data):raise ValueError("truncated Thumb BL")
     h2=struct.unpack_from("<H",data,offset+2)[0]
