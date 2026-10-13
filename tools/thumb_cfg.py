@@ -13,6 +13,46 @@ def trace_thumb_function(data:bytes,start_offset:int,rom_base:int=0x08000000,max
  def add_edge(source:int,target:int,kind:str):
   if not start_offset<=target<limit or target%2:raise ValueError(f"{kind} target leaves function scan window")
   edges.append({"source":rom_base+source,"target":rom_base+target,"kind":kind});queue.append(target)
+ def decode_word_jump_table(offset:int,h:int)->tuple[int,list[int]]|None:
+  """Recognize the Thumb-1 absolute-word switch sequence emitted by agbcc."""
+  if h&0xff87!=0x4687 or offset<start_offset+12:
+   return None
+  source_register=(h>>3)&0xf
+  if source_register>=8:
+   return None
+  sequence=[struct.unpack_from("<H",data,offset-delta)[0] for delta in (12,10,8,6,4,2)]
+  compare,branch_high,shift,literal_load,add,word_load=sequence
+  index_register=(compare>>8)&7
+  table_base_register=(literal_load>>8)&7
+  if compare&0xf800!=0x2800 or branch_high&0xff00!=0xd800:
+   return None
+  if shift&0xf800 or (shift>>6)&0x1f!=2 or (shift>>3)&7!=index_register or shift&7!=source_register:
+   return None
+  if literal_load&0xf800!=0x4800:
+   return None
+  if add&0xfe00!=0x1800 or add&7!=source_register or (add>>3)&7!=source_register or (add>>6)&7!=table_base_register:
+   return None
+  if word_load&0xf800!=0x6800 or (word_load>>6)&0x1f or (word_load>>3)&7!=source_register or word_load&7!=source_register:
+   return None
+  case_count=(compare&0xff)+1
+  if case_count>256:
+   raise ValueError("jump table has implausible case count")
+  literal_instruction=offset-6
+  pointer_offset=((literal_instruction+4)&~3)+((literal_load&0xff)<<2)
+  if pointer_offset<0 or pointer_offset+4>len(data):
+   raise ValueError("jump table pointer leaves ROM")
+  table_address=struct.unpack_from("<I",data,pointer_offset)[0]&~1
+  table_offset=table_address-rom_base
+  if table_offset<0 or table_offset+case_count*4>len(data):
+   raise ValueError("jump table leaves ROM")
+  targets=[]
+  for case in range(case_count):
+   target_address=struct.unpack_from("<I",data,table_offset+case*4)[0]&~1
+   target_offset=target_address-rom_base
+   if not start_offset<=target_offset<limit or target_offset%2:
+    raise ValueError("jump table target leaves function scan window")
+   targets.append(target_offset)
+  return table_address,targets
  while queue:
   offset=queue.pop()
   while offset not in visited:
@@ -40,6 +80,14 @@ def trace_thumb_function(data:bytes,start_offset:int,rom_base:int=0x08000000,max
     h2=struct.unpack_from("<H",data,offset+2)[0]
     if h2&0xf800!=0xf800:raise ValueError("unsupported Thumb long-branch prefix")
     visited.add(offset+2);instructions[offset+2]={"address":address+2,"halfword":h2,"kind":"bl-suffix"};delta=sign_extend(((h&0x7ff)<<12)|((h2&0x7ff)<<1),23);target=address+4+delta;item.update({"kind":"call","target":target});calls.append({"source":address,"target":target});offset+=4;continue
+   jump_table=decode_word_jump_table(offset,h)
+   if jump_table is not None:
+    table_address,targets=jump_table
+    item.update({"kind":"jump-table-branch","table_address":table_address,"targets":[rom_base+target for target in targets]})
+    for case,target in enumerate(targets):
+     edges.append({"source":address,"target":rom_base+target,"kind":"jump-table","case":case})
+     queue.append(target)
+    break
    if h&0xf800==0xe000:
     target=offset+4+(sign_extend(h&0x7ff,11)<<1);item.update({"kind":"branch","target":rom_base+target});add_edge(offset,target,"branch");break
    if h&0xf000==0xd000 and h&0x0f00!=0x0f00:
