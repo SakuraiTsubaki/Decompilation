@@ -9,4 +9,6 @@ class Tests(unittest.TestCase):
   with self.assertRaises(ValueError):M.locate_pattern(d,p)
  def test_rejects_absent_pattern(self):
   with self.assertRaises(ValueError):M.locate_pattern(b'\0'*8,(0x1234,))
+ def test_lists_duplicate_patterns_for_pairing(self):
+  p=(0x1234,);d=struct.pack('<3H',0x1234,0,0x1234);self.assertEqual(M.locate_patterns(d,p),[0,4])
 if __name__=='__main__':unittest.main()

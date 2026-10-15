@@ -6,19 +6,32 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import rng_evidence
 
-def locate_pattern(data:bytes,pattern:tuple[int,...])->int:
+def locate_patterns(data:bytes,pattern:tuple[int,...])->list[int]:
     needle=struct.pack(f'<{len(pattern)}H',*pattern);found=[];start=0
     while True:
       offset=data.find(needle,start)
       if offset<0:break
       if offset%2==0:found.append(offset)
       start=offset+1
+    return found
+
+def locate_pattern(data:bytes,pattern:tuple[int,...])->int:
+    found=locate_patterns(data,pattern)
     if len(found)!=1:raise ValueError(f'expected one instruction pattern, found {len(found)}')
     return found[0]
 
 def analyze(data:bytes,variant:str):
-    random_offset=locate_pattern(data,rng_evidence.RANDOM_PATTERNS[variant])
-    seed_offset=locate_pattern(data,rng_evidence.SEED_PATTERNS[variant])
+    if variant == 'standard':
+        randoms=locate_patterns(data,rng_evidence.RANDOM_PATTERNS[variant]);seeds=set(locate_patterns(data,rng_evidence.SEED_PATTERNS[variant]));pairs=[]
+        for random_offset in randoms:
+            seed_offset=random_offset+32
+            state=struct.unpack_from('<I',data,random_offset+20)[0]
+            if seed_offset in seeds and state==struct.unpack_from('<I',data,seed_offset+12)[0] and 0x03000000<=state<0x03008000:pairs.append((random_offset,seed_offset))
+        if len(pairs)!=1:raise ValueError(f'expected one adjacent Random/SeedRng pair, found {len(pairs)}')
+        random_offset,seed_offset=pairs[0]
+    else:
+        random_offset=locate_pattern(data,rng_evidence.RANDOM_PATTERNS[variant])
+        seed_offset=locate_pattern(data,rng_evidence.SEED_PATTERNS[variant])
     result=rng_evidence.analyze(data,random_offset,seed_offset,variant)
     result['located_offsets']={'Random':random_offset,'SeedRng':seed_offset}
     return result
