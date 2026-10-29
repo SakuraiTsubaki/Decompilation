@@ -17,13 +17,16 @@ ROM_BASE = 0x08000000
 PROFILES = {
     "rs": {"shape": (16, 8, 1, 1, 0), "repository": "pret/pokeruby",
            "commit": "5784633ce4ef7ade1a7f2d2d0c288e3d5e6cdd7f", "path": "src/main.c",
-           "indirect": False},
+           "operand_form": "loaded-handler", "handler_source": "gFlashTimerIntrFunc",
+           "interrupt_table_slot": None},
     "emerald": {"shape": (14, 7, 1, 1, 0), "repository": "pret/pokeemerald",
                 "commit": "fe1d8e51b265851676b65885818b1f5f62586135", "path": "src/main.c",
-                "indirect": False},
+                "operand_form": "slot-address", "handler_source": "gIntrTable + 7",
+                "interrupt_table_slot": 7},
     "frlg": {"shape": (16, 8, 1, 1, 0), "repository": "pret/pokefirered",
              "commit": "037335f4c725d7c9aecdac87066f2002b4bd7e14", "path": "src/main.c",
-             "indirect": True},
+             "operand_form": "loaded-handler", "handler_source": "sTimerIntrFunc",
+             "interrupt_table_slot": 7},
 }
 
 
@@ -61,6 +64,20 @@ def canonical_hash(cfg: dict) -> str:
     return digest(b"".join(struct.pack("<H", item["halfword"]) for item in ordered))
 
 
+def operand_form(cfg: dict) -> str:
+    halfwords = [item["halfword"] for item in
+                 sorted(cfg["instructions"], key=lambda item: item["address"])]
+    if (len(halfwords) == 8 and halfwords[0] == 0xB500
+            and halfwords[1] & 0xF800 == 0x4800 and halfwords[2] == 0x6801
+            and halfwords[3] == 0x2002 and halfwords[-2:] == [0xBC01, 0x4700]):
+        return "loaded-handler"
+    if (len(halfwords) == 7 and halfwords[0] == 0xB500
+            and halfwords[1] & 0xFF00 == 0x4900 and halfwords[2] == 0x2002
+            and halfwords[-2:] == [0xBC01, 0x4700]):
+        return "slot-address"
+    return "unknown"
+
+
 def build(root: Path, rom_dir: Path, catalog_path: Path, game: str,
           family: str) -> dict:
     profile = PROFILES[family]
@@ -70,11 +87,10 @@ def build(root: Path, rom_dir: Path, catalog_path: Path, game: str,
         raise ValueError("catalog must begin with Japanese origin")
     source_path = Path("src/init_flash_timer.c")
     source = (root / source_path).read_text(encoding="utf-8")
-    for token in ("InitFlashTimer", "SetFlashTimerIntr", "2", "7"):
+    for token in ("InitFlashTimer", "SetFlashTimerIntr", "2",
+                  profile["handler_source"].split(" +")[0]):
         if token not in source:
             raise ValueError(f"timer source is missing token: {token}")
-    if profile["indirect"] != ("sTimerIntrFunc" in source):
-        raise ValueError("timer-pointer source variant differs")
     roms = rom_index(rom_dir)
     maps, records = [], []
     for index, release in enumerate(releases):
@@ -90,6 +106,9 @@ def build(root: Path, rom_dir: Path, catalog_path: Path, game: str,
                  len(cfg["calls"]), len(cfg["returns"]), len(cfg["edges"]))
         if shape != profile["shape"]:
             raise ValueError(f"InitFlashTimer structural signature differs: {release_id}")
+        actual_form = operand_form(cfg)
+        if actual_form != profile["operand_form"]:
+            raise ValueError(f"InitFlashTimer operand form differs: {release_id}: {actual_form}")
         call = cfg["calls"][0]
         start, end = address - ROM_BASE, cfg["range_end"] - ROM_BASE
         evidence = {
@@ -108,8 +127,10 @@ def build(root: Path, rom_dir: Path, catalog_path: Path, game: str,
                              "edge_count": 0, "direct_call_count": 1, "return_count": 1,
                              "canonical_reachable_bytes_sha256": canonical_hash(cfg),
                              "raw_halfwords_omitted": True},
-            "verified_behavior": {"timer_index": 2, "interrupt_table_slot": 7,
-                                  "pointer_variant": "indirect" if profile["indirect"] else "direct"},
+            "verified_behavior": {"timer_index": 2,
+                                  "handler_operand_form": actual_form,
+                                  "handler_source": profile["handler_source"],
+                                  "interrupt_table_slot": profile["interrupt_table_slot"]},
             "cross_reference": {"check_flash_memory_map": caller_path.as_posix(),
                                 "check_flash_memory_map_sha256": file_hash(root / caller_path)},
             "naming_basis": {"repository": profile["repository"], "commit": profile["commit"],
@@ -136,8 +157,8 @@ def build(root: Path, rom_dir: Path, catalog_path: Path, game: str,
     (root / research_path).write_text(
         f"# {game} InitFlashTimer reconstruction\n\n"
         f"`{releases[0]['id']}` is the Japanese origin reference. All {len(records)} "
-        f"cataloged releases ({languages}) preserve the `{family}` profile: timer 2 is "
-        "bound to interrupt-table slot 7 through `SetFlashTimerIntr`. Per-release maps "
+        f"cataloged releases ({languages}) preserve the `{family}` profile: timer 2 uses "
+        f"`{profile['handler_source']}` through `SetFlashTimerIntr`. Per-release maps "
         "retain calls and hashes without ROM bytes or instruction halfwords.\n",
         encoding="utf-8", newline="\n")
     test_path = Path("tests/test_init_flash_timer_reconstruction.py")
