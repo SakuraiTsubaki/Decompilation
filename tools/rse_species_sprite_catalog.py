@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract a reproducible species sprite set from RSE release catalogs."""
+"""Extract a reproducible species sprite set from Gen III release catalogs."""
 from __future__ import annotations
 import argparse,hashlib,json,math,struct,zlib
 from pathlib import Path
@@ -8,7 +8,7 @@ ROM_BASE=0x08000000
 ENTRY_SIZE=8
 FRONT_TO_BACK=0x14A0
 BACK_TO_PALETTE=0x0DC0
-REFERENCES={"Ruby":("pret/pokeruby","5784633ce4ef7ade1a7f2d2d0c288e3d5e6cdd7f"),"Sapphire":("pret/pokeruby","5784633ce4ef7ade1a7f2d2d0c288e3d5e6cdd7f"),"Emerald":("pret/pokeemerald","fe1d8e51b265851676b65885818b1f5f62586135")}
+REFERENCES={"Ruby":("pret/pokeruby","5784633ce4ef7ade1a7f2d2d0c288e3d5e6cdd7f"),"Sapphire":("pret/pokeruby","5784633ce4ef7ade1a7f2d2d0c288e3d5e6cdd7f"),"Emerald":("pret/pokeemerald","fe1d8e51b265851676b65885818b1f5f62586135"),"FireRed":("pret/pokefirered","037335f4c725d7c9aecdac87066f2002b4bd7e14"),"LeafGreen":("pret/pokefirered","037335f4c725d7c9aecdac87066f2002b4bd7e14")}
 def digest(data:bytes)->str:return hashlib.sha256(data).hexdigest()
 def file_hash(path:Path)->str:return digest(path.read_bytes())
 def write_json(path:Path,value:object)->None:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value,indent=2)+"\n",encoding="utf-8",newline="\n")
