@@ -44,9 +44,9 @@ def palette(raw:bytes)->tuple[bytes,list[tuple[int,int,int]]]:
  text=("JASC-PAL\n0100\n16\n"+"".join(f"{r} {g} {b}\n"for r,g,b in colors)).encode("ascii");return text,colors
 def chunk(kind:bytes,payload:bytes)->bytes:return struct.pack(">I",len(payload))+kind+payload+struct.pack(">I",zlib.crc32(kind+payload))
 def render(raw:bytes,colors:list[tuple[int,int,int]],scale:int=2)->bytes:
- if len(raw)!=0x800:raise ValueError("species sprite must decode to 0x800 bytes")
- width=height=64;pixels=[[0]*width for _ in range(height)]
- for tile in range(64):
+ if not raw or len(raw)%0x800:raise ValueError("species sprite must contain whole 0x800-byte frames")
+ width=64;height=(len(raw)//32//8)*8;pixels=[[0]*width for _ in range(height)]
+ for tile in range(len(raw)//32):
   tx,ty=tile%8,tile//8
   for n,value in enumerate(raw[tile*32:tile*32+32]):
    y=n//4;x=(n%4)*2;pixels[ty*8+y][tx*8+x]=value&15;pixels[ty*8+y][tx*8+x+1]=value>>4
@@ -65,8 +65,8 @@ def locate_tables(data:bytes,species:int)->tuple[dict,dict,dict]:
    if pos<0:return
    entry=pos-4;cursor=pos+1
    if entry<0 or entry%4:continue
-   source=int.from_bytes(data[entry:entry+4],"little")-ROM_BASE;table=entry-species*ENTRY_SIZE
-   if table>=0 and decoded_length(data,source)==decoded:yield entry,table,source
+   source=int.from_bytes(data[entry:entry+4],"little")-ROM_BASE;table=entry-species*ENTRY_SIZE;length=decoded_length(data,source)
+   if table>=0 and(length==decoded if decoded!=0x800 else length>=0x800 and length%0x800==0):yield entry,table,source
  for entry,table,source in matching_entries((0x800).to_bytes(2,"little")+species.to_bytes(2,"little"),0x800):sprites.append({"entry_offset":entry,"table_offset":table,"source_offset":source,"size":0x800,"tag":species})
  for entry,table,source in matching_entries(species.to_bytes(2,"little")+b"\0\0",32):palettes.append({"entry_offset":entry,"table_offset":table,"source_offset":source,"tag":species})
  pairs=[(a,b)for a in sprites for b in sprites if b["table_offset"]-a["table_offset"]==FRONT_TO_BACK]
@@ -93,8 +93,11 @@ def source_text(species:int,name:str)->str:
 '''
 def extraction(data:bytes,offset:int,expected:int)->tuple[bytes,dict]:
  raw,used=decompress(data,offset)
- if len(raw)!=expected:raise ValueError(f"decoded length differs: {len(raw)}")
- return raw,{"source_offset":offset,"compressed_length":used,"compressed_sha256":digest(data[offset:offset+used]),"decompressed_length":len(raw),"decompressed_sha256":digest(raw),"raw_rom_bytes_included":False}
+ if(len(raw)!=expected if expected!=0x800 else len(raw)<0x800 or len(raw)%0x800):raise ValueError(f"decoded length differs: {len(raw)}")
+ report={"source_offset":offset,"compressed_length":used,"compressed_sha256":digest(data[offset:offset+used]),"decompressed_length":len(raw),"decompressed_sha256":digest(raw),"declared_render_length":expected,"raw_rom_bytes_included":False}
+ if len(raw)>expected:
+  trailing=raw[expected:];report["trailing_decoded_length"]=len(trailing);report["trailing_decoded_sha256"]=digest(trailing);report["trailing_uniform_byte"]=trailing[0]if len(set(trailing))==1 else None
+ return raw[:expected],report
 def build(root:Path,rom_dir:Path,catalog_path:Path,game:str,species:int,species_name:str)->dict:
  catalog=json.loads((root/catalog_path).read_text(encoding="utf-8"));releases=catalog["releases"]
  if not releases or releases[0]["language"]!="Japanese":raise ValueError("catalog must begin with Japanese origin")
@@ -108,7 +111,7 @@ def build(root:Path,rom_dir:Path,catalog_path:Path,game:str,species:int,species_
   evidence={"schema_version":1,"axis":"Decompilation","target":{"release":rid,"sha256":sha256,"build_kind":release["build_kind"]},"origin_reference":index==0,"species":{"id":species,"name":species_name},"source":source_path.as_posix(),"source_sha256":file_hash(root/source_path),"discovery":{"front_to_back_table_delta":FRONT_TO_BACK,"back_to_palette_table_delta":BACK_TO_PALETTE,"front":front,"back":back,"palette":pal},"outputs":[{"path":front_path.as_posix(),"sha256":digest(front_png),"extraction":front_report},{"path":back_path.as_posix(),"sha256":digest(back_png),"extraction":back_report},{"path":palette_path.as_posix(),"sha256":digest(pal_bytes),"extraction":pal_report}],"naming_basis":{"repository":repository,"commit":commit,"paths":["src/data/pokemon_graphics/front_pic_table.h","src/data/pokemon_graphics/back_pic_table.h","src/data/pokemon_graphics/palette_table.h"]},"raw_rom_bytes_included":False}
   map_path=Path(f"analysis/{rid}-{species_name}-sprite-set.json");write_json(root/map_path,evidence);maps.append(map_path);records.append({"id":rid,"language":release["language"],"revision":release["revision"],"build_kind":release["build_kind"],"sha256":sha256,"origin_reference":index==0,"evidence":map_path.as_posix(),"front":front_path.as_posix(),"back":back_path.as_posix(),"palette":palette_path.as_posix()})
  summary={"schema_version":1,"axis":"Decompilation","game":game,"species":{"id":species,"name":species_name},"origin_reference":releases[0]["id"],"release_count":len(records),"releases":records,"raw_rom_bytes_included":False};summary_path=Path(f"analysis/{species_name}-sprite-set-summary.json");write_json(root/summary_path,summary)
- languages=", ".join(dict.fromkeys(x["language"]for x in records));research_path=Path(f"research/{species_name}-sprite-set.md");(root/research_path).write_text(f"# {game} {species_name.title()} sprite reconstruction\n\n`{releases[0]['id']}` is the Japanese origin reference. All {len(records)} cataloged builds ({languages}) independently locate the species front, back, and normal-palette tables by their structural deltas. Each GBA LZ77 stream is decoded, rendered to a 128x128 PNG with the verified BGR555 palette, and recorded with compressed, decoded, palette, and output hashes. No ROM bytes are published.\n",encoding="utf-8",newline="\n")
+ languages=", ".join(dict.fromkeys(x["language"]for x in records));research_path=Path(f"research/{species_name}-sprite-set.md");(root/research_path).write_text(f"# {game} {species_name.title()} sprite reconstruction\n\n`{releases[0]['id']}` is the Japanese origin reference. All {len(records)} cataloged builds ({languages}) independently locate the species front, back, and normal-palette tables by their structural deltas. Each GBA LZ77 stream is decoded and its declared 0x800-byte sprite payload is rendered to a 128x128 PNG with the verified BGR555 palette. Any decompressed trailing padding is excluded from rendering but retained by length, hash, and uniform-byte evidence. Compressed, decoded, palette, and output hashes are recorded. No ROM bytes are published.\n",encoding="utf-8",newline="\n")
  test_path=Path(f"tests/test_{species_name}_sprite_reconstruction.py");outputs=[catalog_path,source_path,summary_path,*maps,*assets,research_path,test_path];missing=[p.as_posix()for p in outputs if not(root/p).is_file()]
  if missing:raise ValueError("missing output(s): "+", ".join(missing))
  write_json(root/f"manifests/{species_name}-sprite-reconstruction.json",{"schema_version":1,"axis":"Decompilation","game":game,"species":{"id":species,"name":species_name},"origin_reference":releases[0]["id"],"release_count":len(records),"generator":{"repository":"SakuraiTsubaki/Decompilation","tool":"tools/rse_species_sprite_catalog.py","tool_sha256":file_hash(Path(__file__))},"outputs":[{"path":p.as_posix(),"sha256":file_hash(root/p)}for p in outputs],"raw_rom_bytes_included":False});return summary
